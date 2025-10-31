@@ -6,6 +6,22 @@ function App() {
 
   //<> is a React Fragment that doesn't include extra DOM elements
   return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Index />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+function RegistrationForm() {
+
+}
+
+export default App
+
+function Index() {
+  return (
     <> 
       <h1>Do you like chess!?</h1>
       <div>
@@ -25,9 +41,3 @@ function App() {
     </>
   )
 }
-
-function RegistrationForm() {
-
-}
-
-export default App

@@ -7,7 +7,7 @@ function App() {
   //<> is a React Fragment that doesn't include extra DOM elements
   return (
     <> 
-      <h1>Do you like chess?</h1>
+      <h1>Do you like chess!?</h1>
       <div>
         <form method="POST" action="/create_account">
           <p>

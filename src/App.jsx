@@ -1,29 +1,23 @@
 import { useState } from 'react'
 import './App.css'
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 
 function App() {
-  // TODO: With your instructor
-
-  //<> is a React Fragment that doesn't include extra DOM elements
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Index />} />
+        <Route path="/index.html" element={<Index />} />
+        <Route path="/lists.html" element={<Lists />} />
+        <Route path="*" element={<Not_Found />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
-
-function RegistrationForm() {
-
-}
-
-export default App
 
 function Index() {
   return (
-    <> 
-      <h1>Do you like chess!?</h1>
+    <>
+      <h1>Login</h1>
       <div>
         <form method="POST" action="/create_account">
           <p>
@@ -37,7 +31,43 @@ function Index() {
           <input type="submit" value="Create Account" name="submit" id="submit" />
         </form>
       </div>
-
     </>
-  )
+  );
 }
+
+function Lists() {
+  return (
+    <>
+      <h1>User Lists</h1>
+      <div>
+        <p>Select a list to make a bracket for:</p>
+        <select name="user_lists" id="user_lists">
+          <option value="standard_list">Select a List</option>
+        </select>
+      </div>
+    </>
+  );
+}
+
+function Not_Found() {
+  return (
+    <>
+      <h1>Page Not Found :</h1>
+      <div>
+        <p>Did you meant to go to any of these pages?</p>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/index.html">Login Page</Link>
+            </li>
+            <li>
+              <Link to="/lists.html">List Page</Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </>
+  );
+}
+
+export default App

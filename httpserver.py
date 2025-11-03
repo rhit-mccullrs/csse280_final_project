@@ -34,10 +34,9 @@ def login():
 def shutdown():
     os._exit(0)
 
-@app.route("/", defaults={"path": ''})
-@app.route("/<path:path>")
+@app.route("/<path>")
 def catch_all(path):
-    return 'You want path: %s' % path
+    return "beef"
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5173)

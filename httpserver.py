@@ -29,11 +29,15 @@ def login():
     password = request.form["password"]
     if dataservice.login(username, password):
         return flask.Response(status=200)
-    
 
 @app.get("/shutdown")
 def shutdown():
     os._exit(0)
+
+@app.route("/", defaults={"path": ''})
+@app.route("/<path:path>")
+def catch_all(path):
+    return 'You want path: %s' % path
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5173)

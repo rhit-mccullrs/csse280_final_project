@@ -6,8 +6,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/index.html" element={<Index />} />
-        <Route path="/lists.html" element={<Lists />} />
+        <Route path="/" element={<Index />} />
+        <Route path="/lists" element={<Lists />} />
         <Route path="*" element={<Not_Found />} />
       </Routes>
     </BrowserRouter>
@@ -36,6 +36,7 @@ function Index() {
 }
 
 function Lists() {
+
   return (
     <>
       <h1>User Lists</h1>
@@ -49,19 +50,23 @@ function Lists() {
   );
 }
 
+function add_lists() {
+  
+}
+
 function Not_Found() {
   return (
     <>
-      <h1>Page Not Found :</h1>
+      <h1>Page Not Found</h1>
       <div>
         <p>Did you meant to go to any of these pages?</p>
         <nav>
           <ul>
             <li>
-              <Link to="/index.html">Login Page</Link>
+              <Link to="/index">Login Page</Link>
             </li>
             <li>
-              <Link to="/lists.html">List Page</Link>
+              <Link to="/lists">List Page</Link>
             </li>
           </ul>
         </nav>

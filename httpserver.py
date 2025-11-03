@@ -34,9 +34,9 @@ def login():
 def shutdown():
     os._exit(0)
 
-@app.route("/<path>")
-def catch_all(path):
-    return "beef"
+@app.route("/")
+def catch_all():
+    return flask.redirect("index.html")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5173)

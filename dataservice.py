@@ -7,6 +7,8 @@ global_db = None
 def login(username, password):
     db = get_db()
     if username in db.all():
+        if "password" not in db.get(username):
+            return False
         return password==db.get(username["password"])
     return False
 

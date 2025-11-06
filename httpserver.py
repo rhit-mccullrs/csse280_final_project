@@ -5,10 +5,35 @@ import json
 import os
 import dataservice
 
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import verify_jwt_in_request
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
+
+
 app = flask.Flask(__name__,
                   static_url_path='',
                   static_folder='dist')
 
+app.config['JWT_SECRET_KEY'] = "mysecretkey"
+jwt = JWTManager(app)
+
+@app.get("/shutdown")
+@jwt_required()
+def shutdown():
+    os._exit(0)
+
+@app.get("/home")
+def home():
+    return flask.Response(status="200 OK")
+
+@app.post("/login")
+def login():
+    username = request.form["username"]
+    password = request.form["password"]
+    if dataservice.login(username, password):
+        return flask.Response(status=200)
 
 @app.post("/create_account")
 def create_account():
@@ -19,24 +44,20 @@ def create_account():
         return flask.Response(status="200 OK",
                               headers={"Content-Type":"application/json"},
                               response=json.dumps(dataservice.get_lists(username)))
-    
-    
-    
 
-@app.post("/login")
-def login():
-    username = request.form["username"]
-    password = request.form["password"]
-    if dataservice.login(username, password):
-        return flask.Response(status=200)
+@app.get("/lists")
+@jwt_required()
+def lists():
+    username = get_jwt_identity()
+    dataservice.get_lists(username)
+    return flask.Response(status="200 OK",
+                            headers={"Content-Type":"application/json"},
+                            response=json.dumps(dataservice.get_lists(username)))
 
-@app.get("/shutdown")
-def shutdown():
-    os._exit(0)
+# @app.get("/<path>")
+# def catch_all(path):
+#     return flask.Response(status="200 OK")
 
-@app.route("/")
-def catch_all():
-    return flask.redirect("index.html")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5173)

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Link, useParams } from "react-router-dom";
 
 function App() {
   return (
@@ -8,6 +8,7 @@ function App() {
       <Routes>
         <Route path="/index.html" element={<Index />} />
         <Route path="/lists" element={<Lists />} />
+        <Route path='/swiss_pair/:list_name' element={<Swiss_Pair />} />
         <Route path="*" element={<Not_Found />} />
       </Routes>
     </BrowserRouter>
@@ -40,24 +41,32 @@ function Index() {
   );
 }
 
-function Lists() {
+function additional_lists() {
 
+}
+
+
+function Lists() {
+  let [list, set_list] = useState('');
+  let swiss_setup_request = "/swiss_setup/" + list;
+  let swiss_pair_link = "/swiss_pair/" + list;
   return (
     <>
       <h1>User Lists</h1>
       <div>
-        <p>Select a list to make a bracket for:</p>
-        <select name="user_lists" id="user_lists">
-          <option value="standard_list">Select a List</option>
-        </select>
+        <form method="POST" action={swiss_setup_request}>
+          <p>Select a list to make a bracket for:</p>
+          <select name="user_lists" id="user_lists" onChange={(e) => set_list(e.target.value)}>
+            <option value="standard_list">Select a List</option>
+            <option value="rose-hulman">Rose-Hulman</option>
+            {additional_lists()}
+          </select>
+          <Link to={swiss_pair_link}> <input type="submit" value="Create Account" name="submit" id="submit" /> </Link>
+        </form>
       </div>
     </>
   );
 }
-
-// function add_lists() {
-  
-// }
 
 function Not_Found() {
   return (
@@ -78,6 +87,47 @@ function Not_Found() {
       </div>
     </>
   );
+}
+
+async function get_data(data_request) {
+  try {
+    let response = await fetch(data_request, {
+      method: 'GET'
+    })
+    let responseData = await response.json();
+    return responseData
+  }
+  catch (ex) {
+    console.error(ex)
+  }
+}
+
+
+
+function Swiss_Pair() {
+  let { list_name } = useParams();
+  let data_request = "/data/" + list_name
+  let data = ''
+
+  window.addEventListener("load", () => {
+    data = get_data(data_request);
+  })
+
+  return (
+    <>
+      <h1>Swiss Pairing Bracket: {list_name}</h1>
+      <div>
+        <p>
+          {data}
+        </p>
+      </div>
+      <div>
+        <form>
+
+        </form>
+      </div>
+    </>
+  )
 }
 
 export default App

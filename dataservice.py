@@ -51,3 +51,11 @@ def get_lists(username):
 
     return lists
 
+def get_list_data(username, list_name):
+    lists = get_lists("luke")
+    list_data = {}
+    list = lists[list_name]
+    for x in list:
+        list_data[x] = list[x]
+
+    return list_data

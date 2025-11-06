@@ -33,7 +33,7 @@ function Index() {
             <label htmlFor="password">Password:</label>
             <input type="text" id="password" name="password" required />
           </p>
-          <Link to="/lists.html"> <input type="submit" value="Create Account" name="submit" id="submit" /> </Link>
+          <Link to="/lists"> <input type="submit" value="Create Account" name="submit" id="submit" /> </Link>
         </form>
       </div>
     </>
